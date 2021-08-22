@@ -1,6 +1,5 @@
 import yarl
 import aiohttp
-
 import asyncio
 import logging
 import contextlib
@@ -100,7 +99,7 @@ class httpproxy(web.Application):
                          client_max_size=client_max_size, loop=loop, debug=debug)
 
         self.clientSession = aiohttp.ClientSession() if clientSession == None else clientSession()
-        self.handler = httpproxyHandler(clientSession) if httpHandler == None else httpHandler(clientSession)
+        self.handler = httpproxyHandler(self.clientSession) if httpHandler == None else httpHandler(self.clientSession)
         self.router.add_route("*", "/{tail:.*}", self.handler.handler)
 
 
